@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cuckoo.mapper.ReportTemplateFieldMapper">
+  <resultMap id="BaseResultMap" type="com.cuckoo.entity.ReportTemplateField">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="template_code" jdbcType="VARCHAR" property="templateCode" />
+    <result column="field_code" jdbcType="VARCHAR" property="fieldCode" />
+    <result column="field_type" jdbcType="VARCHAR" property="fieldType" />
+    <result column="field_length" jdbcType="INTEGER" property="fieldLength" />
+    <result column="valid_status" jdbcType="BIT" property="validStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="not_empty" jdbcType="BIT" property="notEmpty" />
+    <result column="field_sort" jdbcType="TINYINT" property="fieldSort" />
+    <result column="field_constraint_type" jdbcType="VARCHAR" property="fieldConstraintType" />
+    <result column="field_constraint_match_type" jdbcType="VARCHAR" property="fieldConstraintMatchType" />
+    <result column="field_constraint_match_rule" jdbcType="VARCHAR" property="fieldConstraintMatchRule" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="create_at" jdbcType="VARCHAR" property="createAt" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_at" jdbcType="VARCHAR" property="updateAt" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="field_name" jdbcType="VARCHAR" property="fieldName" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="defaultValue" jdbcType="VARCHAR" property="defaultValue" />
+    <result column="choose" jdbcType="BIT" property="choose" />
+  </resultMap>
+
+  <select id="queryByTemplateCode" parameterType="String" resultMap="BaseResultMap">
+    select
+        id,
+        template_code,
+        field_code,
+        field_type,
+        field_length,
+        valid_status,
+        remark,
+        not_empty,
+        field_sort,
+        field_constraint_type,
+        field_constraint_match_type,
+        field_constraint_match_rule,
+        delete_flag,
+        version,
+        create_at,
+        create_time,
+        update_at,
+        update_time,
+        field_name,
+        comment,
+        defaultValue,
+        choose
+    from report_template_field where template_code = #{templateCode}
+  </select>
+
+
+</mapper>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cuckoo.mapper.GeneralJournalMapper">
+
+
+  <select id="queryById" parameterType="Integer" resultType="Map">
+    select
+        id,
+        architecture,
+        `year`,
+        `month`,
+        journal_date,
+        certificate_num,
+        process_instance_id,
+        reimbursement_person,
+        expense_department_id,
+        expense_department,
+        budget_department_id,
+        budget_department,
+        project,
+        service_product,
+        summary,
+        set_books_id,
+        set_books,
+        debit_amount,
+        lender_amount,
+        management_subject,
+        invoice_company,
+        budget_thrid_code,
+        budget_thrid,
+        budget_second_code,
+        budget_second,
+        budget_first_code,
+        budget_first,
+        business_line,
+        record_origin,
+        consolidated_amount,
+        input_date,
+        update_time,
+        create_time,
+        create_by,
+        version,
+        update_by
+    from general_journal where id = #{id}
+  </select>
+
+  <select id="query" resultType="Map">
+    select
+      id,
+      architecture,
+      `year`,
+      `month`,
+      journal_date,
+      certificate_num,
+      process_instance_id,
+      reimbursement_person,
+      expense_department_id,
+      expense_department,
+      budget_department_id,
+      budget_department,
+      project,
+      service_product,
+      summary,
+      set_books_id,
+      set_books,
+      debit_amount,
+      lender_amount,
+      management_subject,
+      invoice_company,
+      budget_thrid_code,
+      budget_thrid,
+      budget_second_code,
+      budget_second,
+      budget_first_code,
+      budget_first,
+      business_line,
+      record_origin,
+      consolidated_amount,
+      input_date,
+      update_time,
+      create_time,
+      create_by,
+      version,
+      update_by
+    from general_journal limit 0,100
+  </select>
+
+    <select id="existTable" parameterType="String" resultType="Integer">
+        select count(*)
+        from information_schema.TABLES
+        where LCASE(table_name)=#{tableName}
+    </select>
+
+    <update id="dropTable" parameterType="String">
+        DROP TABLE IF EXISTS ${tableName}
+    </update>
+
+    <update id="truncateTable" parameterType="String">
+        truncate table ${tableName}
+    </update>
+
+
+    <update id="copyTableDdl">
+        CREATE TABLE ${targetTableName} LIKE ${sourceTableName}
+    </update>
+
+    <update id="copyAllTableData">
+        insert into ${targetTableName} select * from ${sourceTableName};
+    </update>
+
+    <update id="copyTableByTemplate" parameterType="String">
+        insert into ${targetTableName}(
+            <foreach collection="targetFields" item="item" separator="">
+                <if test="item.choose == true">
+                    ${item.fieldCode},
+                </if>
+            </foreach>
+        )
+        select
+        <foreach collection="sourceFields" item="item" separator="">
+            <if test="item.choose == true">
+                ${item.fieldCode},
+            </if>
+        </foreach>
+        from ${sourceTableName}
+        <if test="sourceCondition != null and sourceCondition !=''">
+            where ${sourceCondition}
+        </if>
+    </update>
+
+    <update id="createCustomTable" parameterType="com.cuckoo.entity.ReportTemplateField">
+        CREATE TABLE IF NOT EXISTS  ${tableName} (
+        `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
+        <foreach collection="customTables" item="item" separator="">
+            <if test="item.choose == true">
+                ${item.fieldCode} ${item.fieldType}
+                <choose>
+                    <when test="item.notEmpty != null and item.notEmpty !='' and item.notEmpty=true">
+                        NOT NULL
+                    </when>
+                </choose>
+                DEFAULT
+                <choose>
+                    <when test="item.defaultValue != null and item.defaultValue !=''">
+                        ${item.defaultValue}
+                    </when>
+                    <otherwise>
+                        NULL
+                    </otherwise>
+                </choose>
+                COMMENT
+                <choose>
+                    <when test="item.comment != null and item.comment !=''">
+                        '${item.comment}'
+                    </when>
+                    <otherwise>
+                        '${item.fieldCode}'
+                    </otherwise>
+                </choose>
+                ,
+            </if>
+        </foreach>
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+    </update>
+
+    <insert id="cusInsert" parameterType="String">
+        insert into ${tableName}
+            (${tableInsertFields})
+        values
+        (${tableInsertFieldValues})
+    </insert>
+
+
+</mapper>

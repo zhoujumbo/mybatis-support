@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+    <typeAliases>
+        <typeAlias type="com.cuckoo.entity.User" alias="User"/>
+    </typeAliases>
+
+
+<!--    <plugins>-->
+<!--        <plugin interceptor="com.cuckoo.plugins.LockInterceptor"/>-->
+<!--    </plugins>-->
+
+    <environments default="default">
+        <environment id="default">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"></property>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis_stu?useSSL=false"></property>
+                <property name="username" value="root"></property>
+                <property name="password" value="ShunW!123@"></property>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--<package name=""-->
+        <mapper resource="mybatis/mapper/UserMapper.xml"/>
+    </mappers>
+
+
+</configuration>
